@@ -34,12 +34,18 @@ function lambda() {
     echo "lambda publish"
     pack-fn && publish-fn
     ;;
+  tf)
+    e=$([ -n "$NODE_ENV" ] && echo "$NODE_ENV" || echo "dev")
+    echo "generate terraform blueprint"
+    node cmd/tfgen
+    echo "saved file ./terraform/$e/terraform.tf"
+    ;;
   clean)
     echo "clean dist"
     rm dist/*{.js,.map} function.zip
     ;;
   *)
-    echo "usage: lambda create|update|invoke|list|build|publish"
+    echo "usage: lambda create|update|invoke|list|build|publish|tf"
     ;;
   esac
 }
